@@ -56,20 +56,13 @@
   \end{verbatim}
 \end{exampleblock}
 
-\begin{exampleblock}{Run application on \alert{\textbf{Beskow}}}
+\begin{exampleblock}{Run application on compute nodes}
   \begin{verbatim}
   $ srun -n <PEs> ./binary.x
-  #PEs 	- number of processing elements (MPI processes)
+  #PEs: number of processing elements (MPI processes)
   \end{verbatim}
 \end{exampleblock}
   
-  
-\begin{exampleblock}{Run application on \alert{\textbf{Tegner}}}
-
-  \begin{verbatim}
-  $ mpirun -np <cores> ./binary.x
-  \end{verbatim}
-\end{exampleblock}
 \end{frame}
 
 \begin{frame}[fragile]
@@ -77,26 +70,24 @@
 \begin{exampleblock}{Submit the job to SLURM queue}
   \begin{verbatim}
 $ sbatch <script>
-Submitted batch job 958287
+Submitted batch job 123456
   \end{verbatim}
 \end{exampleblock}
 
 \scriptsize
 The script should contain all necessary data to identify the account and requested resources 
-\begin{exampleblock}{Example of request to run myexe for 1 hour on 4 nodes}
-  \begin{verbatim}
-#!/bin/bash -l
+\begin{exampleblock}{Example of request to run myexe for 1 hour on 2 nodes}
+\begin{verbatim}
+#!/bin/bash
 
 #SBATCH -A summer-2019
 #SBATCH -J myjob
-#SBATCH -t 1:00:00
-#SBATCH --nodes=4
-#SBATCH --ntasks-per-node=32
-#SBATCH -e error_file.e
-#SBATCH -o output_file.o
+#SBATCH -t 01:00:00
+#SBATCH --nodes=2
+#SBATCH --ntasks-per-node=128
 
-srun -n 128 ./myexe > my_output_file
-  \end{verbatim}
+srun ./myexe > my_output_file
+\end{verbatim}
 \end{exampleblock}
 
 \end{frame}
@@ -107,10 +98,10 @@ srun -n 128 ./myexe > my_output_file
   Displays all queue and/or running jobs that belong to the user
 \tiny
   \begin{verbatim}
-cira@beskow-login2:~> squeue -u cira
- JOBID     USER ACCOUNT           NAME  ST REASON    START_TIME                TIME  TIME_LEFT NODES  CPUS
-957519   cira pdc.staff      VASP-test   R None      2016-08-15T08:15:24    6:09:42   17:49:18    16  1024
-957757   cira pdc.staff      VASP-run    R None      2016-08-15T11:14:20    3:10:46   20:48:14    128 8192
+user@dardel$ squeue -u user
+ JOBID     USER ACCOUNT           NAME  ST REASON    START_TIME                TIME  TIME_LEFT NODES
+ 63519   user 20XX-X-XX      test-run1   R None      2021-11-15T08:15:24    6:09:42   17:49:18     2
+ 63757   user 20XX-X-XX      test-run2   R None      2021-11-15T11:14:20    3:10:46   20:48:14     8
   \end{verbatim}
 \end{alertblock}
 
@@ -118,12 +109,12 @@ cira@beskow-login2:~> squeue -u cira
 Stops a running job or removes a pending one from the queue
 \tiny
   \begin{verbatim}
-cira@beskow-login2:~> scancel 957519
-salloc: Job allocation 957891 has been revoked.
+user@dardel$ scancel 63519
+salloc: Job allocation 63519 has been revoked.
 
-cira@beskow-login2:~> squeue -u cira
-JOBID     USER ACCOUNT           NAME  ST REASON    START_TIME                TIME  TIME_LEFT NODES  CPUS
-957757   cira pdc.staff      VASP-run    R None      2016-08-15T11:14:20    3:10:46   20:48:14    128 8192
+user@dardel$ squeue -u user
+ JOBID     USER ACCOUNT           NAME  ST REASON    START_TIME                TIME  TIME_LEFT NODES
+ 63757   user 20XX-X-XX      test-run2   R None      2021-11-15T11:14:20    3:10:46   20:48:14     8
   \end{verbatim}
 \end{alertblock}
 \end{frame}
