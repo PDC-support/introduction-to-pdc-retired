@@ -83,7 +83,20 @@ $ ssh-keygen -t ed25519 -f $HOME/.ssh/id-ed25519-pdc
 
 \begin{block}{\$HOME/.ssh/config}
 \begin{verbatim}
-... write me ...
+# Dardel
+Host dardel.pdc.kth.se
+  Preferredauthentications publickey
+  IdentityFile ~/.ssh/id-ed25519-pdc
+
+# You can keep other SSH settings below
+
+# Hosts we want to authenticate to with Kerberos
+Host *.kth.se *.kth.se.
+# User authentication based on GSSAPI is allowed
+GSSAPIAuthentication yes
+# Key exchange based on GSSAPI may be used for server authentication
+GSSAPIKeyExchange yes
+...
 \end{verbatim}
 \end{block}
 
