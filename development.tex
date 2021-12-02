@@ -1,18 +1,4 @@
 \section{Development}
-\subsection{Building}
-\begin{frame}[fragile]
-\frametitle{Compiling, Linking and Running Applications}
-\framesubtitle{on HPC clusters}
- \begin{description}
-    \item [source code] C / C++ / Fortran ( \verb|.c, .cpp, .f90, .h|  )
-    \item [compile] Cray/GNU/AMD compilers
-    \item [assemble] into machine code (object files: \verb|.o, .obj| )
-    \item [link] Static Libraries (\verb|.lib, .a|  ) \\ Shared Library (\verb|.dll, .so| ) \\ Executables (\verb|.exe, .x| )
-    \item ~ 
-    \item [request allocation] submit job request to SLURM queuing system \\ \verb|salloc/sbatch|
-    \item [run] application on scheduled resources \\ \verb|srun|
- \end{description}
-\end{frame}
 
 \subsection{Modules}
 \begin{frame}[fragile]
@@ -46,7 +32,7 @@
 
 
 \begin{frame}[fragile]
-\frametitle{Modules }
+\frametitle{Modules}
 \framesubtitle{Displaying modules}
 \begin{exampleblock}{\$ ml}
 \scriptsize
@@ -79,46 +65,92 @@ setenv("FFTW_ROOT","/opt/cray/pe/fftw/3.3.8.12/x86_rome")
 \end{exampleblock}
 \end{frame}
 
-\subsection{Programming environments}
-\begin{frame}[fragile]
-  \frametitle{Programming Environment Modules}
 
-\begin{columns}[t]
-\column{.7\textwidth}
-  \begin{description}
-  \item [Cray] \verb|$ ml PrgEnv-cray|
-  \item [GNU] \verb|$ ml PrgEnv-gnu|
-  \item [AMD] \verb|$ ml PrgEnv-aocc|
-  \end{description}
-   % \item Module cray-libsci provides BLAS, LAPACK, BLACS, and SCALAPACK
-   % \item Module cray-mpich provides MPI
-\column{.3\textwidth}
-    \begin{verbatim}
-$ cc	source.c
-$ CC	source.cpp
-$ ftn	source.F90
-  \end{verbatim}
-\end{columns}
-  \begin{exampleblock}{Compiler wrappers : \alert{\textbf{cc} \textbf{CC} \textbf{ftn}}}
-    \alert{Advantages}\\
-    Compiler wrappers will automatically 
-    \begin{itemize}
-      \item link to BLAS, LAPACK, BLACS, SCALAPACK, FFTW\\
-      \item use MPI wrappers\\
-    \end{itemize}
-    \alert{Disadvantage}\\
-    Sometimes you need to edit Makefiles which are not designed for Cray 
+\begin{frame}[fragile]
+\frametitle{Modules}
+\framesubtitle{Using PDC module}
+\begin{exampleblock}{
+The PDC module enables many PDC-installed software modules.
+}
+\footnotesize
+\begin{verbatim}
+$ ml PDC
+$ ml avail
+------------- /pdc/software/21.11/other/modules -----------------
+   EasyBuild-production/4.5.0    arm/21.1           fluent/21.2   ...
+   ...
+
+------------- /pdc/software/21.11/eb/modules/all ----------------
+   ABINIT/9.6.2-cpeGNU-21.11         GROMACS/2021.3-cpeCray-21.11 ...
+   ...
+
+------------- /pdc/software/21.11/spack/modules -----------------
+   all-spack-modules/0.17.0    amdlibm/3.0         gnuplot/5.4.2  ...
+   ...
+
+\end{verbatim}
 \end{exampleblock}
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+\frametitle{Modules}
+\framesubtitle{Using PDC module}
+\begin{exampleblock}{Find the modules you need}
+\footnotesize
+\begin{verbatim}
+$ ml PDC
+$ ml avail gromacs
+--------------------- /pdc/software/21.11/eb/modules/all ---------------
+   GROMACS/2021.3-cpeCray-21.11
+$ ml avail vasp
+--------------------- /pdc/software/21.11/other/modules ----------------
+   vasp/5.4.4-vanilla    vasp/5.4.4-wannier90    vasp/6.2.1-vanilla  ...
+$ ml avail fftw
+-------------- /opt/cray/pe/lmod/modulefiles/cpu/x86-rome/1.0 ----------
+   cray-fftw/3.3.8.10    cray-fftw/3.3.8.11    cray-fftw/3.3.8.12 (D)
+\end{verbatim}
+\end{exampleblock}
+
+Example submission scripts for common software can be found in:
+\href{https://www.pdc.kth.se/software}{https://www.pdc.kth.se/software}
+\end{frame}
+
+
+
+\subsection{Programming environments}
+
+\begin{frame}[fragile]
+\frametitle{Programming Environment Modules}
+\begin{exampleblock}{Programming Environment on Dardel}
+\begin{itemize}
+  \item PrgEnv-cray:
+    loads the Cray compiling environment (CCE) that provides compilers for Cray systems.
+  \item PrgEnv-gnu:
+    loads the GNU compiler suite.
+  \item PrgEnv-aocc:
+    loads the AMD AOCC compilers.
+\end{itemize}
+\end{exampleblock}
+\begin{columns}[t]
+\column{1.\textwidth}
+\begin{description}
+    \item [Cray] \verb|$ ml PrgEnv-cray|
+    \item [GNU]  \verb|$ ml PrgEnv-gnu|
+    \item [AMD]  \verb|$ ml PrgEnv-aocc|
+\end{description}
+ % \item Module cray-libsci provides BLAS, LAPACK, BLACS, and SCALAPACK
+ % \item Module cray-mpich provides MPI
+\end{columns}
 \end{frame}
 
 
 \begin{frame}[fragile]
 \frametitle{Programming Environment Modules}
-    \begin{exampleblock}{
-        Use cpe module with PrgEnv- modules
-    }
+    \begin{exampleblock}{ Use cpe module with PrgEnv- modules }
+    \footnotesize
     \begin{verbatim}
-$ ml cpe/21.11
 $ ml PrgEnv-gnu
 
 Lmod is automatically replacing "cce/13.0.0" with "gcc/11.2.0".
@@ -127,6 +159,8 @@ Lmod is automatically replacing "PrgEnv-cray/8.2.0" with "PrgEnv-gnu/8.2.0".
 
 Due to MODULEPATH changes, the following have been reloaded:
   1) cray-mpich/8.1.11
+
+$ ml cpe
 
 $ cc --version
 gcc (GCC) 11.2.0 20210728 (Cray Inc.)
@@ -137,24 +171,42 @@ Copyright (C) 2021 Free Software Foundation, Inc.
 \end{frame}
 
 
+\subsection{Building}
 \begin{frame}[fragile]
-\frametitle{Programming Environment Modules}
-    \begin{exampleblock}{
-        The PDC module enables many PDC-installed software modules.
-    }
-    \begin{verbatim}
-$ ml PDC/21.11
-$ ml avail
-   ...
-------------- /pdc/software/21.11/other/modules ------------
-   EasyBuild-production/4.5.0    arm/21.1           ...
-   ...
-------------- /pdc/software/21.11/eb/modules/all -----------
-   ABINIT/9.6.2-cpeGNU-21.11     Eigen/3.3.9        ...
-   ...
-------------- /pdc/software/21.11/spack/modules ------------
-   all-spack-modules/0.17.0    amdlibm/3.0          ...
-   ...
-    \end{verbatim}
-    \end{exampleblock}
+\frametitle{Compiling, Linking and Running Applications}
+\framesubtitle{on HPC clusters}
+ \begin{description}
+    \item [source code] C / C++ / Fortran ( \verb|.c, .cpp, .f90, .h|  )
+    \item [compile] Cray/GNU/AMD compilers
+    \item [assemble] into machine code (object files: \verb|.o, .obj| )
+    \item [link] Static Libraries (\verb|.lib, .a|  ) \\ Shared Library (\verb|.dll, .so| ) \\ Executables (\verb|.exe, .x| )
+    \item ~ 
+    \item [request allocation] submit job request to SLURM queuing system \\ \verb|salloc/sbatch|
+    \item [run] application on scheduled resources \\ \verb|srun|
+ \end{description}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Compiler wrappers}
+\framesubtitle{cc, CC and ftn}
+\begin{columns}[t]
+\column{1.\textwidth}
+  \begin{description}
+      \item [C] \verb|$ cc -o myexe.x mycode.c|
+      \item [C++] \verb|$ CC -o myexe.x mycode.cpp|
+      \item [Fortran] \verb|$ ftn -o myexe.x mycode.f90|
+  \end{description}
+   % \item Module cray-libsci provides BLAS, LAPACK, BLACS, and SCALAPACK
+   % \item Module cray-mpich provides MPI
+\end{columns}
+  \begin{exampleblock}{Compiler wrappers : \alert{\textbf{cc} \textbf{CC} \textbf{ftn}}}
+    \alert{Advantages}\\
+    Compiler wrappers will automatically 
+    \begin{itemize}
+      \item link to BLAS, LAPACK, BLACS, SCALAPACK, FFTW\\
+      \item link to MPI\\
+    \end{itemize}
+    \alert{Disadvantage}\\
+    Sometimes you need to edit Makefiles which are not designed for Cray 
+\end{exampleblock}
 \end{frame}

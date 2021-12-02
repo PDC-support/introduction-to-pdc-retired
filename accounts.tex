@@ -50,8 +50,6 @@
 \end{itemize}
 \end{exampleblock}
 
-\href{https://www.pdc.kth.se/support/documents/login/ssh\_login.html}{https://www.pdc.kth.se/support/documents/login/ssh\_login.html}
-
 \end{frame}
 
 \subsection*{SSH keys}
@@ -69,6 +67,7 @@ $ ssh-keygen -t ed25519 -f $HOME/.ssh/id-ed25519-pdc
     \begin{itemize}
         \item SUPR authentication for initial setup
         \item PDC login portal for managing/changing user’s connection information (public key and IP address)
+        \item User without SUPR accout: need to provide public SSH key, IP address, and expiration date ($\le$ 1 year).
         \item See online documentation for details (link below).
     \end{itemize}
 \end{block}
@@ -82,6 +81,7 @@ $ ssh-keygen -t ed25519 -f $HOME/.ssh/id-ed25519-pdc
 \frametitle{Configure your SSH}
 
 \begin{block}{\$HOME/.ssh/config}
+\footnotesize
 \begin{verbatim}
 # Dardel
 Host dardel.pdc.kth.se
@@ -89,14 +89,15 @@ Host dardel.pdc.kth.se
   IdentityFile ~/.ssh/id-ed25519-pdc
 
 # You can keep other SSH settings below
+# For example if you have Kerberos settings for KTH
 
 # Hosts we want to authenticate to with Kerberos
 Host *.kth.se *.kth.se.
-# User authentication based on GSSAPI is allowed
-GSSAPIAuthentication yes
-# Key exchange based on GSSAPI may be used for server authentication
-GSSAPIKeyExchange yes
-...
+  # User authentication based on GSSAPI is allowed
+  GSSAPIAuthentication yes
+  # Key exchange based on GSSAPI may be used for server authentication
+  GSSAPIKeyExchange yes
+  ...
 \end{verbatim}
 \end{block}
 

@@ -2,46 +2,65 @@
 \frame{
 \frametitle{How to run programs}
 \begin{itemize}
-  \item After login we are on a \textit{login node} used only for:
+
+  \item On login node you
   \begin{itemize}
-    \item submitting jobs,
-    \item editing files,
-    \item compiling small programs,
-    \item other computationally light tasks.
+    \item can submit jobs, edit files, compile small programs, or do other computationally light tasks.
+    \item \alert{should not run calculations}.
   \end{itemize}
-  \item \alert{Never run calculations interactively on the login node} 
-  \item Instead, request compute resources \textit{interactively} or via \textit{batch script} \\~
 
-  \item All jobs must be connected to a time allocation
-  \item For courses, PDC sets up a \textit{reservation} for resources \\~
+  \item To run your job, you need to 
+  \begin{itemize}
+      \item request compute node(s) using sbatch or salloc
+      \item run your job using srun
+  \end{itemize}
 
-  \item To manage the workload on the clusters, PDC uses a queueing/batch system
+  \item The queueing/batch system
+  \begin{itemize}
+      \item All jobs must be connected to a time allocation
+      \item For courses, PDC sets up a \textit{reservation} for resources
+  \end{itemize}
 
   \end{itemize}
  }
 
 
 \subsection{SLURM}
+
 \frame{
 \frametitle{SLURM workload manager}
 \framesubtitle{Simple Linux Utility for Resource Management}
-
 \begin{itemize}
  \item Open source, fault-tolerant, and highly scalable cluster management and job scheduling system
  \begin{itemize}
-  \item \alert{Allocates} exclusive and/or non-exclusive access to \alert{resources} for some duration of time
-  \item Provides a framework for \alert{starting}, \alert{executing}, and \alert{monitoring} work on the set of allocated nodes
-  \item \alert{Arbitrates contention} for resources by managing a queue 
+  \item Allocates access to resources
+  \item Provides framework monitoring work on allocated nodes
+  \item Arbitrates contention for resources
  \end{itemize}
  \item Job Priority computed based on 
  \begin{description}
     \item [Age] the length of time a job has been waiting
-    \item [Fair-share] the difference between the portion of the computing resource that has been promised and the amount of resources that has been consumed
+    \item [Fair-share] the difference between the promised computing resource and the consumed computing resource
     \item [Job size] the number of nodes or CPUs a job is allocated
     \item [Partition] a factor associated with each node partition
 %    \item [QOS] a factor associated with each Quality Of Service
  \end{description}
 \end{itemize}
+}
+
+
+\frame{
+\frametitle{SLURM workload manager}
+\framesubtitle{Partitions}
+\begin{itemize}
+    \item Four partitions on Dardel
+\end{itemize}
+\begin{description}
+   \item [main] Thin nodes (256 GB RAM), whole nodes, maximum 24 hours
+   \item [long] Thin nodes (256 GB RAM), whole nodes, maximum 7 days
+   \item [shared] Thin nodes (256 GB RAM), job shares nodes with other jobs, maximum 24 hours
+   \item [memory] Large/Huge/Giant compute nodes (512 GB - 2 TB RAM), whole nodes, maximum 24 hours
+\end{description}
 }
 
 \subsection*{SLURM commands}
@@ -50,16 +69,17 @@
 \frametitle{Interactive session \hfill \alert{\textbf{salloc}}}
 
 \begin{exampleblock}{Request an interactive allocation of resources}
+  \footnotesize
   \begin{verbatim}
-  $ salloc -A <account> -t <d-hh:mm:ss> -N <nodes>
+  $ salloc -A <allocation> -t <d-hh:mm:ss> -p <partition> -N <nodes>
   salloc: Granted job allocation 123456
   \end{verbatim}
 \end{exampleblock}
 
 \begin{exampleblock}{Run application on compute nodes}
+  \footnotesize
   \begin{verbatim}
-  $ srun -n <PEs> ./binary.x
-  #PEs: number of processing elements (MPI processes)
+  $ srun -n <number-of-MPI-processes> ./binary.x
   \end{verbatim}
 \end{exampleblock}
   
@@ -68,21 +88,22 @@
 \begin{frame}[fragile]
 \frametitle{Launch batch jobs \hfill  \alert{\textbf{sbatch}}}
 \begin{exampleblock}{Submit the job to SLURM queue}
-  \begin{verbatim}
+\footnotesize
+\begin{verbatim}
 $ sbatch <script>
 Submitted batch job 123456
-  \end{verbatim}
+\end{verbatim}
 \end{exampleblock}
 
-\scriptsize
-The script should contain all necessary data to identify the account and requested resources 
-\begin{exampleblock}{Example of request to run myexe for 1 hour on 2 nodes}
+\begin{exampleblock}{Example script to run myexe for 1 hour on 2 nodes}
+\footnotesize
 \begin{verbatim}
 #!/bin/bash
 
 #SBATCH -A 20XX-X-XX
 #SBATCH -J myjob
 #SBATCH -t 01:00:00
+#SBATCH -p main
 #SBATCH --nodes=2
 #SBATCH --ntasks-per-node=128
 

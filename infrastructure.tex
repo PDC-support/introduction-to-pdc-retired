@@ -24,7 +24,7 @@
 \column{1.\textwidth}
   \begin{itemize}
     \item $56$ GPU nodes
-    \item AMD EPYC$^{\rm TM}$ processor with 64 cores 
+    \item AMD EPYC$^{\rm TM}$ processor with 64 cores (under development)
     \item 512 GB memory
     \item four AMD Instinct$^{\rm TM}$ MI250X GPUs
   \end{itemize}
@@ -47,6 +47,7 @@
 \end{itemize}
 \end{block}
 
+\footnotesize
 \href{https://www.pdc.kth.se/support/documents/data\_management/klemming.html}{https://www.pdc.kth.se/support/documents/data\_management/klemming.html}
 
 }
@@ -79,12 +80,14 @@
 \frametitle{Access Control Lists}
 
 \begin{exampleblock}{To view the access for a folder:}
+\footnotesize
 \begin{verbatim}
 getfacl -a /cfs/klemming/home/u/user/test
 \end{verbatim}
 \end{exampleblock}
 
 \begin{exampleblock}{The output looks like this:}
+\footnotesize
 \begin{verbatim}
 # file: /cfs/klemming/home/u/user/test
 # owner: me
@@ -96,8 +99,16 @@ other::---
 \end{exampleblock}
 
 \begin{exampleblock}{To grant the access to another user:}
+\footnotesize
 \begin{verbatim}
 setfacl -m u:<uid>:r-x -R /cfs/klemming/home/u/user/test
+\end{verbatim}
+\end{exampleblock}
+
+\begin{exampleblock}{To remove the access for another user:}
+\footnotesize
+\begin{verbatim}
+setfacl -x u:<uid> -R /cfs/klemming/home/u/user/test
 \end{verbatim}
 \end{exampleblock}
 
