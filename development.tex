@@ -96,7 +96,7 @@ $ ml avail
 
 \begin{frame}[fragile]
 \frametitle{Modules}
-\framesubtitle{Using PDC module}
+\framesubtitle{Using common software}
 \begin{exampleblock}{Find the modules you need}
 \footnotesize
 \begin{verbatim}
@@ -117,6 +117,29 @@ Example submission scripts for common software can be found in:
 \href{https://www.pdc.kth.se/software}{https://www.pdc.kth.se/software}
 \end{frame}
 
+
+\begin{frame}[fragile]
+\frametitle{Modules}
+\framesubtitle{Using singularity}
+\begin{exampleblock}{Singularity}
+\begin{itemize}
+\item Open-source container system for HPC
+\item Brings portability and reproducibility
+\end{itemize}
+\end{exampleblock}
+\begin{exampleblock}{To use Singularity}
+\begin{itemize}
+\item Get your singlarity image
+  \begin{itemize}
+  \item Download images from singularity hub, or
+  \item Build your own image (on your own computer)
+  \end{itemize}
+\item Run singularity image on Dardel
+\end{itemize}
+\end{exampleblock}
+\scriptsize
+    \href{https://www.pdc.kth.se/software/software/singularity/cpe21.09/3.8.3-1/index\_using.html}{https://www.pdc.kth.se/software/software/singularity/cpe21.09/3.8.3-1/index\_using.html}
+\end{frame}
 
 
 \subsection{Programming environments}
@@ -155,7 +178,8 @@ $ ml PrgEnv-gnu
 
 Lmod is automatically replacing "cce/13.0.0" with "gcc/11.2.0".
 
-Lmod is automatically replacing "PrgEnv-cray/8.2.0" with "PrgEnv-gnu/8.2.0".
+Lmod is automatically replacing "PrgEnv-cray/8.2.0" with 
+"PrgEnv-gnu/8.2.0".
 
 Due to MODULEPATH changes, the following have been reloaded:
   1) cray-mpich/8.1.11
@@ -171,7 +195,7 @@ Copyright (C) 2021 Free Software Foundation, Inc.
 \end{frame}
 
 
-\subsection{Building}
+\subsection{Compiling code}
 \begin{frame}[fragile]
 \frametitle{Compiling, Linking and Running Applications}
 \framesubtitle{on HPC clusters}
