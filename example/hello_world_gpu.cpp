@@ -17,7 +17,7 @@ int main(int argc, char** argv) {
   if (hipGetDeviceCount(&ndevices) != hipSuccess) {
     printf("No such devices\n");
     return 1;
-    }
+    } 
   printf("You can access GPU devices: 0-%d\n", (ndevices - 1));
   ndevice = 0;
   if (argc > 1)
@@ -43,6 +43,6 @@ int main(int argc, char** argv) {
   // Free up memory
   hipFree(devs1);
   hipFree(devs2);
-  // print the results
   printf("GPU %d: %s\n", ndevice, hosts2);
   }
+
